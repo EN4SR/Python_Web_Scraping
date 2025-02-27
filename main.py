@@ -1,5 +1,6 @@
 import requests
 import selectorlib
+import time
 from send_email import send_email
 
 WEBSITE_URL = 'https://programmer100.pythonanywhere.com/tours/'
@@ -35,12 +36,15 @@ def send_email(message):
 
 
 if __name__ == '__main__':
-    page_source = scrap(WEBSITE_URL)
-    data = extract_data(page_source)
-    print(data)
+    while True:
+        page_source = scrap(WEBSITE_URL)
+        data = extract_data(page_source)
+        print(data)
 
-    if data != 'No upcoming tours':
-        saved_data = read_data()
-        if data not in saved_data:
-            save_data(data)
-            send_email(data)
+        if data != 'No upcoming tours':
+            saved_data = read_data()
+            if data not in saved_data:
+                save_data(data)
+                send_email(data)
+
+        time.sleep(5)
